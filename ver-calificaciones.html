@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ver Calificaciones</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      text-align: left;
+    }
+    th {
+      background: rgba(255,255,255,0.2);
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #ff4b4b;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-size: 1rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    button:hover {
+      background: #c82333;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Calificaciones Registradas</h1>
+
+<table id="tablaCalificaciones">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Materia</th>
+      <th>Retroalimentación</th>
+      <th>Nota</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Aquí van las filas -->
+  </tbody>
+</table>
+
+<button id="btnSalir">Salir al Menú</button>
+
+<script>
+  const tablaBody = document.querySelector('#tablaCalificaciones tbody');
+  const btnSalir = document.getElementById('btnSalir');
+
+  // Función para agregar fila a la tabla
+  function agregarFila(nombre, materia, retro, nota) {
+    const fila = document.createElement('tr');
+    // Aseguramos que retro no sea undefined ni null
+    const retroText = retro ? retro : '';
+    fila.innerHTML = `
+      <td>${nombre}</td>
+      <td>${materia}</td>
+      <td>${retroText}</td>
+      <td>${Number(nota).toFixed(1)}</td>
+    `;
+    tablaBody.appendChild(fila);
+  }
+
+  // Cargar calificaciones guardadas al cargar la página
+  window.addEventListener('load', () => {
+    const calificacionesGuardadas = localStorage.getItem('calificaciones');
+    if (calificacionesGuardadas) {
+      const calificaciones = JSON.parse(calificacionesGuardadas);
+      calificaciones.forEach(({nombre, materia, retro, nota}) => {
+        agregarFila(nombre, materia, retro, nota);
+      });
+    }
+  });
+
+  // Botón salir al menú.html
+  btnSalir.addEventListener('click', () => {
+    window.location.href = 'menu.html';
+  });
+</script>
+
+</body>
+</html>
